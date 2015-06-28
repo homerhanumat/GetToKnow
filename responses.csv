@@ -1,2 +1,4 @@
-"name","age","address","major","height","ideal_ht","fastest","sleep","love_first","et_life","sex","time","latitude","longitude"
-"Homer",52,"198 Hiawatha Trail, Georgetown KY 40324, USA","Philosophy",74.8,74.8,85,7,"yes","yes","male","2015-06-25 12:00:00 EDT",38.2000327,-84.5654419
+"name","age","address","major","height","ideal_ht","fastest","sleep","seat","love_first","extra_life","sex","surprise","link","latitude","longitude","time"
+"Homer",52,"198 Hiawatha Trail, Georgetown KY 40324, USA","Philosophy",74.8,74.8,85,7,"front","yes","yes","male","I read Sanskrit.","http://statistics.georgetowncollege.edu",38.2000327,-84.5654419,"2015-06-27 22:09:43"
+"ml",18,"400 East College Street georgetown ky 40324 us","Accounting",67.5,66,103,6,"middle","no","yes","female","I have no surprises","http://google.com",38.2073277227806,-84.5567387544817,"2015-06-27 22:22:21"
+"Batman",27,"101 West Main Street Georgetown KY 40324 USA","Biology",68.5,69.5,174,1,"back","no","yes","male","I fight crime.","http://shiny.rstudio.com",38.2100920790074,-84.5601059151568,"2015-06-27 22:28:33"

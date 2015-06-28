@@ -1,3 +1,6 @@
+library(DT)
+library(leaflet)
+
 surveyVarChoices <- c("Age" = "age",
                       "Address" = "address",
                       "Major" = "major",
@@ -7,8 +10,23 @@ surveyVarChoices <- c("Age" = "age",
                       "average amount of sleep" = "sleep",
                       "Seating preference" = "seat",
                       "Belief in love at first sight" = "love_first",
-                      "Belief in extraterrestrial life" = "et_life",
-                      "Sex" = "sex")
+                      "Belief in extraterrestrial life" = "extra_life",
+                      "Sex" = "sex",
+                      "Favorite website" = "link",
+                      "Surprising Fact" = "surprise")
+
+surveyVarChoicesSummary <- c("Age" = "age",
+                             "Major" = "major",
+                             "Height" = "height",
+                             "Ideal height" = "ideal_ht",
+                             "Fastest speed ever driven" = "fastest",
+                             "average amount of sleep" = "sleep",
+                             "Seating preference" = "seat",
+                             "Belief in love at first sight" = "love_first",
+                             "Belief in extraterrestrial life" = "extra_life",
+                             "Sex" = "sex",
+                             "Surprising fact" = "surprise"
+)
 
 ui = navbarPage(
   title = "Ice-Breaker Survey",
@@ -17,7 +35,7 @@ ui = navbarPage(
     fluidPage(
     column(width = 6,
       textInput("name", "Name", ""),
-    sliderInput("age", "Your Age", 0, 100, 0, step = 1,ticks = FALSE),
+    sliderInput("age", "Your Age", 15, 70, 18, step = 1,ticks = FALSE),
     textInput("address", "Your Address", ""),
     selectInput("major", "Intended Major",
                 choices = c("","Accounting","Athletic Training","Art","Biology",
@@ -39,14 +57,14 @@ ui = navbarPage(
                             "Other Major",
                             "I Have No Idea!"),
                 selected = ""),
-    sliderInput("height","Your height (in inches)",0,90,40,
-                step = 0.1,ticks = FALSE),
-    sliderInput("ideal_ht","Your ideal height (in inches)",0,90,40,
-                step = 0.1,ticks = FALSE),
-    sliderInput("fastest","Fastest speed you ever drove a car (in mph)",0,200,40,
+    sliderInput("height","Your height (in inches)",53,84,66,
+                step = 0.5,ticks = FALSE),
+    sliderInput("ideal_ht","Your ideal height (in inches)",53,84,66,
+                step = 0.5,ticks = FALSE),
+    sliderInput("fastest","Fastest speed you ever drove a car (in mph)",0,200,70,
                 step = 1,ticks = FALSE),
-    sliderInput("sleep","Average amount of sleep at night (hours)",0,20,4,
-                step = 0.1,ticks = FALSE)
+    sliderInput("sleep","Average amount of sleep at night (hours)",0,20,7,
+                step = 0.5,ticks = FALSE)
     ),
     column(width = 6,
       selectInput("seat","Where you prefer to sit in a classroom:",
@@ -54,9 +72,11 @@ ui = navbarPage(
                   selected = ""),
       selectInput("love_first","Do you believe in love at first sight?",
                   choices = c("","yes","no"),selected = ""),
-      selectInput("et_life","Do you believe in extraterrestrial life?",
+      selectInput("extra_life","Do you believe in extraterrestrial life?",
                   choices = c("","yes","no"), selected = ""),
       selectInput("sex","I am a:",choices = c("","female","male"), selected = ""),
+      textInput("link","URL of a favorite website:","http://google.com"),
+      textInput("surprise","A Surprising fact about me:","I have no surprises"),
       actionButton("submit", "Submit", class = "btn-primary")
     )
   )
@@ -79,7 +99,7 @@ ui = navbarPage(
     fluidPage(
       sidebarPanel(
         selectInput("varSummary", "Variable to Display",
-                    choices = surveyVarChoices,selected = "age"),
+                    choices = surveyVarChoicesSummary,selected = "age"),
         actionButton("update2","Update (as others enter data)")
       ),
       mainPanel(
