@@ -129,12 +129,7 @@ function(input,output) {
     n <- nrow(responses)
     latitude <- responses$latitude
     longitude <- responses$longitude
-    if ( var == "link") {
-      info <- paste0(responses$name,": ",
-              "<a href = \`",responses$link,"\` target = \`_blank\`>Click Here!</a>")
-    } else {
-      info <- paste(responses$name,":  ",responses[,var])
-    }
+    info <- paste(responses$name,":  ",responses[,var])
     m <- leaflet(responses) %>%
       addTiles() %>%
       addMarkers(lat = latitude, lng = longitude, popup = info, 
