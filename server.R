@@ -4,6 +4,7 @@ library(shiny)
 library(magrittr)
 library(DT)
 library(leaflet)
+library(XML)
 library(dismo)
 
 timeLimit <- 3600*24  # time lapse in seconds before we re-initiate data
@@ -23,7 +24,7 @@ labelFinder <- function(varName) {
          "love_first" = "Belief in love at first sight",
          "extra_life" = "Belief in extraterrestrial life",
          "sex" = "Sex",
-         )
+  )
 }
 
 # read in previous responses
@@ -62,23 +63,23 @@ if (file.exists("responses.csv")) {
   address <- "198 Hiawatha Trail, Georgetown KY 40324, USA"
   location <- geocode(address, oneRecord = TRUE)
   responses <- data.frame(name = "Homer",
-                        age = 52,
-                        address = address,
-                        major = "Philosophy",
-                        height = 74.8,
-                        ideal_ht = 74.8,
-                        fastest = 85,
-                        sleep = 7,
-                        seat = "front",
-                        love_first = "yes",
-                        extra_life = "yes",
-                        sex = "male",
-                        surprise = "I read Sanskrit.",
-                        link = "http://statistics.georgetowncollege.edu",
-                        latitude = location$lat,
-                        longitude = location$lon,
-                        time = as.character(Sys.time())
-                        )
+                          age = 52,
+                          address = address,
+                          major = "Philosophy",
+                          height = 74.8,
+                          ideal_ht = 74.8,
+                          fastest = 85,
+                          sleep = 7,
+                          seat = "front",
+                          love_first = "yes",
+                          extra_life = "yes",
+                          sex = "male",
+                          surprise = "I read Sanskrit.",
+                          link = "http://statistics.georgetowncollege.edu",
+                          latitude = location$lat,
+                          longitude = location$lon,
+                          time = as.character(Sys.time())
+  )
   write.csv(responses, file = "responses.csv", row.names = FALSE)
 }
 
@@ -93,22 +94,22 @@ function(input,output) {
     # create response.  Jitter locations a bit in case two respondent slive at the 
     # same address
     response <- data.frame(name = input$name,
-                         age = input$age,
-                         address = input$address,
-                         major = input$major,
-                         height = input$height,
-                         ideal_ht = input$ideal_ht,
-                         fastest = input$fastest,
-                         sleep = input$sleep,
-                         seat = input$seat,
-                         love_first = input$love_first,
-                         extra_life = input$extra_life,
-                         sex = input$sex,
-                         surprise = input$surprise,
-                         link = input$link,
-                         time = as.character(Sys.time()),
-                         latitude = location$lat + runif(1, min = -0.0001,0.0001),
-                         longitude = location$lon + runif(1, min = -0.0001,0.0001)
+                           age = input$age,
+                           address = input$address,
+                           major = input$major,
+                           height = input$height,
+                           ideal_ht = input$ideal_ht,
+                           fastest = input$fastest,
+                           sleep = input$sleep,
+                           seat = input$seat,
+                           love_first = input$love_first,
+                           extra_life = input$extra_life,
+                           sex = input$sex,
+                           surprise = input$surprise,
+                           link = input$link,
+                           time = as.character(Sys.time()),
+                           latitude = location$lat + runif(1, min = -0.0001,0.0001),
+                           longitude = location$lon + runif(1, min = -0.0001,0.0001)
     )
     #update rv:
     rv$responses <- rbind(rv$responses, response)
@@ -146,14 +147,14 @@ function(input,output) {
     if (is.numeric(variable) && n  >= 3 ) {
       title <- paste0("Density Plot of ",varName)
       return(ggplot(responses, aes_string(x = varName)) +
-        geom_density() + geom_rug() +
-        labs(title = title, x = labelFinder(varName)))
+               geom_density() + geom_rug() +
+               labs(title = title, x = labelFinder(varName)))
     } 
     if ( is.factor(variable) ) {
       title <- paste0("Bar Graph of ",varName)
       return(ggplot(responses, aes_string(x = varName)) +
-        geom_bar(fill = "burlywood") +
-        labs(title = title, x = labelFinder(varName)))
+               geom_bar(fill = "burlywood") +
+               labs(title = title, x = labelFinder(varName)))
     }
   })
   
@@ -195,4 +196,15 @@ function(input,output) {
         backgroundColor = styleEqual(input$name, 'lightblue'))
   })
   
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      "responses.csv"
+    },
+    content = function(file) {
+      sep <- ","
+      # Write to a file specified by the 'file' argument
+      write.table(responses, file, sep = sep,
+                  row.names = FALSE)
+    }
+  )
 }
