@@ -6,7 +6,7 @@ library(DT)
 library(leaflet)
 library(dismo)
 
-timeLimit <- 3600  # time lapse in seconds before we re-initiate data
+timeLimit <- 3600*24  # time lapse in seconds before we re-initiate data
 
 # for markers
 iconURL <- "Tiger_head_solo.png"
